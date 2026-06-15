@@ -1,0 +1,1406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DataClean Pro — Free Online Data Cleaning Tool | Eduxellence Analytics</title>
+<meta name="description" content="Upload a messy CSV or Excel file and download a perfectly cleaned version instantly. Free tool by Eduxellence Analytics.">
+<meta property="og:title" content="DataClean Pro — Clean Messy CSV/Excel Files Instantly">
+<meta property="og:description" content="Stop spending hours cleaning data manually. Upload your file, get a clean one back in seconds. Free forever.">
+<meta property="og:url" content="https://eduxellence.org/upload">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* ═══════════════════════════════════════════════
+   RESET & BASE
+═══════════════════════════════════════════════ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --navy:      #0B1829;
+  --navy-mid:  #112240;
+  --blue:      #1E6BFF;
+  --blue-light:#4B8AFF;
+  --teal:      #0FC9A0;
+  --teal-dark: #09A882;
+  --white:     #FFFFFF;
+  --off-white: #F7F9FC;
+  --slate:     #64748B;
+  --slate-light: #CBD5E1;
+  --border:    #E2E8F0;
+  --success:   #16A34A;
+  --error:     #DC2626;
+  --warning:   #D97706;
+  --text:      #0F172A;
+  --text-muted:#475569;
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,.10);
+  --shadow-lg: 0 12px 40px rgba(0,0,0,.14);
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: 'DM Sans', system-ui, sans-serif;
+  background: var(--off-white);
+  color: var(--text);
+  line-height: 1.6;
+  min-height: 100vh;
+}
+
+a { color: var(--blue); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* ═══════════════════════════════════════════════
+   NAV
+═══════════════════════════════════════════════ */
+.nav {
+  background: var(--navy);
+  padding: 0 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  box-shadow: 0 1px 0 rgba(255,255,255,.06);
+}
+
+.nav-logo {
+  font-family: 'Syne', sans-serif;
+  font-weight: 800;
+  font-size: 1.1rem;
+  color: var(--white);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.nav-logo span { color: var(--teal); }
+
+.nav-links {
+  display: flex;
+  gap: 1.5rem;
+  align-items: center;
+}
+
+.nav-links a {
+  color: rgba(255,255,255,.7);
+  font-size: 0.875rem;
+  font-weight: 500;
+  transition: color .15s;
+}
+
+.nav-links a:hover { color: var(--white); text-decoration: none; }
+
+.nav-cta {
+  background: var(--teal) !important;
+  color: var(--navy) !important;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-weight: 600 !important;
+}
+
+/* ═══════════════════════════════════════════════
+   HERO
+═══════════════════════════════════════════════ */
+.hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+  padding: 5rem 2rem 4rem;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  width: 600px; height: 600px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(30,107,255,.15) 0%, transparent 70%);
+  top: -200px; left: 50%;
+  transform: translateX(-50%);
+  pointer-events: none;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(15,201,160,.12);
+  border: 1px solid rgba(15,201,160,.3);
+  color: var(--teal);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 5px 14px;
+  border-radius: 20px;
+  margin-bottom: 1.5rem;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+}
+
+.hero h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  color: var(--white);
+  line-height: 1.15;
+  max-width: 720px;
+  margin: 0 auto 1.25rem;
+  letter-spacing: -1px;
+}
+
+.hero h1 span { color: var(--teal); }
+
+.hero-sub {
+  font-size: 1.1rem;
+  color: rgba(255,255,255,.65);
+  max-width: 540px;
+  margin: 0 auto 2.5rem;
+  line-height: 1.7;
+}
+
+/* Stat pills */
+.hero-stats {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 1.5rem;
+}
+
+.stat-pill {
+  background: rgba(255,255,255,.07);
+  border: 1px solid rgba(255,255,255,.12);
+  color: rgba(255,255,255,.8);
+  font-size: 0.82rem;
+  padding: 6px 16px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.stat-pill strong { color: var(--teal); }
+
+/* ═══════════════════════════════════════════════
+   MAIN TOOL CARD
+═══════════════════════════════════════════════ */
+.main-container {
+  max-width: 860px;
+  margin: -2rem auto 4rem;
+  padding: 0 1.5rem;
+  position: relative;
+  z-index: 2;
+}
+
+.tool-card {
+  background: var(--white);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-lg);
+  overflow: hidden;
+}
+
+/* Tab bar */
+.tool-tabs {
+  display: flex;
+  border-bottom: 1px solid var(--border);
+  background: var(--off-white);
+}
+
+.tool-tab {
+  flex: 1;
+  padding: 1rem;
+  text-align: center;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--slate);
+  cursor: pointer;
+  border-bottom: 2.5px solid transparent;
+  transition: all .15s;
+  background: none;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.tool-tab.active {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+  background: var(--white);
+}
+
+/* Upload panel */
+.panel { display: none; padding: 2rem; }
+.panel.active { display: block; }
+
+/* Drop zone */
+#drop-zone {
+  border: 2px dashed var(--slate-light);
+  border-radius: var(--radius-lg);
+  padding: 3rem 2rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all .2s;
+  position: relative;
+  background: var(--off-white);
+}
+
+#drop-zone:hover,
+#drop-zone.dragover {
+  border-color: var(--blue);
+  background: rgba(30,107,255,.04);
+}
+
+#drop-zone.dragover { transform: scale(1.01); }
+
+.drop-icon {
+  width: 64px; height: 64px;
+  background: linear-gradient(135deg, rgba(30,107,255,.12), rgba(15,201,160,.12));
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 1.25rem;
+  font-size: 2rem;
+}
+
+.drop-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: .5rem;
+}
+
+.drop-sub {
+  font-size: 0.9rem;
+  color: var(--slate);
+  margin-bottom: 1.25rem;
+}
+
+.drop-types {
+  display: flex;
+  gap: .5rem;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.type-badge {
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 6px;
+}
+
+#file-input { display: none; }
+
+.browse-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--blue);
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 10px 24px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  margin-top: 1.25rem;
+  transition: all .15s;
+}
+
+.browse-btn:hover { background: var(--blue-light); transform: translateY(-1px); }
+
+/* File selected state */
+.file-selected {
+  display: none;
+  background: rgba(22,163,74,.06);
+  border: 1.5px solid rgba(22,163,74,.25);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  margin-top: 1.25rem;
+  align-items: center;
+  gap: .75rem;
+}
+
+.file-selected.show { display: flex; }
+
+.file-icon { font-size: 1.5rem; }
+
+.file-info { flex: 1; min-width: 0; }
+
+.file-name {
+  font-weight: 600;
+  color: var(--text);
+  font-size: 0.9rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.file-size { font-size: 0.8rem; color: var(--slate); }
+
+.file-remove {
+  background: none;
+  border: none;
+  color: var(--slate);
+  cursor: pointer;
+  font-size: 1.1rem;
+  padding: 4px;
+  border-radius: 4px;
+  line-height: 1;
+  transition: color .15s;
+}
+
+.file-remove:hover { color: var(--error); }
+
+/* Preview table */
+#preview-box { display: none; margin-top: 1.5rem; }
+#preview-box.show { display: block; }
+
+.preview-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: .75rem;
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+}
+
+.preview-scroll { overflow-x: auto; border-radius: var(--radius-md); border: 1px solid var(--border); }
+
+.preview-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+  min-width: 500px;
+}
+
+.preview-table th {
+  background: var(--navy);
+  color: rgba(255,255,255,.9);
+  padding: .6rem .9rem;
+  text-align: left;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.preview-table td {
+  padding: .55rem .9rem;
+  border-top: 1px solid var(--border);
+  color: var(--text);
+  max-width: 160px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.preview-table tr:nth-child(even) td { background: var(--off-white); }
+
+.null-cell { color: var(--slate-light); font-style: italic; }
+
+.issues-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: .75rem;
+  margin-top: 1rem;
+}
+
+.issue-card {
+  background: var(--off-white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: .75rem 1rem;
+  text-align: center;
+}
+
+.issue-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--text);
+}
+
+.issue-num.red { color: var(--error); }
+.issue-num.amber { color: var(--warning); }
+.issue-num.green { color: var(--success); }
+
+.issue-label { font-size: 0.78rem; color: var(--slate); margin-top: 2px; }
+
+/* Clean button */
+.clean-btn {
+  width: 100%;
+  background: linear-gradient(135deg, var(--blue) 0%, #1452CC 100%);
+  color: var(--white);
+  font-family: 'Syne', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  padding: 1rem 2rem;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  transition: all .2s;
+  letter-spacing: .02em;
+  box-shadow: 0 4px 14px rgba(30,107,255,.35);
+}
+
+.clean-btn:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(30,107,255,.45);
+}
+
+.clean-btn:disabled {
+  background: var(--slate-light);
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+.clean-btn .btn-icon { font-size: 1.2rem; }
+
+/* Progress state */
+#progress-section { display: none; margin-top: 1.5rem; }
+#progress-section.show { display: block; }
+
+.progress-label {
+  font-size: 0.875rem;
+  color: var(--slate);
+  margin-bottom: .5rem;
+  display: flex;
+  justify-content: space-between;
+}
+
+.progress-track {
+  height: 6px;
+  background: var(--border);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--blue), var(--teal));
+  border-radius: 3px;
+  width: 0%;
+  transition: width .3s ease;
+}
+
+.stage-list {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stage-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.82rem;
+  color: var(--slate);
+  padding: 4px 0;
+  opacity: .4;
+  transition: opacity .2s;
+}
+
+.stage-item.active { opacity: 1; color: var(--blue); }
+.stage-item.done { opacity: 1; color: var(--success); }
+
+.stage-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+
+/* Success state */
+#success-section { display: none; margin-top: 1.5rem; }
+#success-section.show { display: block; }
+
+.success-card {
+  background: linear-gradient(135deg, rgba(22,163,74,.07), rgba(15,201,160,.07));
+  border: 1.5px solid rgba(22,163,74,.25);
+  border-radius: var(--radius-lg);
+  padding: 2rem;
+  text-align: center;
+}
+
+.success-icon { font-size: 3rem; margin-bottom: 1rem; }
+
+.success-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--success);
+  margin-bottom: .5rem;
+}
+
+.success-sub { color: var(--slate); font-size: 0.9rem; margin-bottom: 1.5rem; }
+
+.result-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: .75rem;
+  margin-bottom: 1.5rem;
+}
+
+.result-card {
+  background: var(--white);
+  border-radius: var(--radius-sm);
+  padding: .75rem .5rem;
+  border: 1px solid var(--border);
+}
+
+.result-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--success);
+}
+
+.result-lbl { font-size: 0.75rem; color: var(--slate); margin-top: 2px; }
+
+.download-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: linear-gradient(135deg, var(--success), #15803D);
+  color: var(--white);
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  padding: .9rem 2rem;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  width: 100%;
+  justify-content: center;
+  transition: all .2s;
+  box-shadow: 0 4px 14px rgba(22,163,74,.3);
+}
+
+.download-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(22,163,74,.4); }
+
+.clean-another {
+  margin-top: .75rem;
+  background: none;
+  border: 1.5px solid var(--border);
+  color: var(--slate);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  padding: .7rem 1.5rem;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  width: 100%;
+  transition: all .15s;
+}
+
+.clean-another:hover { border-color: var(--blue); color: var(--blue); }
+
+/* Error */
+.error-box {
+  display: none;
+  background: rgba(220,38,38,.06);
+  border: 1.5px solid rgba(220,38,38,.25);
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  margin-top: 1.25rem;
+  color: var(--error);
+  font-size: 0.875rem;
+  gap: .75rem;
+  align-items: flex-start;
+}
+
+.error-box.show { display: flex; }
+
+/* ═══════════════════════════════════════════════
+   HOW IT WORKS
+═══════════════════════════════════════════════ */
+.section {
+  max-width: 960px;
+  margin: 0 auto 5rem;
+  padding: 0 1.5rem;
+}
+
+.section-label {
+  text-align: center;
+  font-family: 'Syne', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: .1em;
+  text-transform: uppercase;
+  color: var(--blue);
+  margin-bottom: .75rem;
+}
+
+.section-title {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2.25rem);
+  font-weight: 800;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: .75rem;
+  letter-spacing: -0.5px;
+}
+
+.section-sub {
+  text-align: center;
+  color: var(--slate);
+  max-width: 520px;
+  margin: 0 auto 3rem;
+  font-size: 1rem;
+}
+
+/* Steps */
+.steps {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1.5rem;
+}
+
+.step-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow .2s;
+}
+
+.step-card:hover { box-shadow: var(--shadow-md); }
+
+.step-num {
+  font-family: 'Syne', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: rgba(30,107,255,.08);
+  position: absolute;
+  top: .5rem;
+  right: 1rem;
+  line-height: 1;
+}
+
+.step-icon { font-size: 1.75rem; margin-bottom: .75rem; }
+
+.step-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: .4rem;
+}
+
+.step-desc { font-size: 0.875rem; color: var(--slate); line-height: 1.6; }
+
+/* Features grid */
+.features {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  margin-top: 3rem;
+}
+
+.feature-item {
+  display: flex;
+  gap: .75rem;
+  align-items: flex-start;
+  padding: 1rem 1.25rem;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+}
+
+.feature-icon {
+  width: 36px; height: 36px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, rgba(30,107,255,.1), rgba(15,201,160,.1));
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+
+.feature-text .ft { font-weight: 600; font-size: 0.9rem; color: var(--text); }
+.feature-text .fd { font-size: 0.82rem; color: var(--slate); margin-top: 2px; }
+
+/* ═══════════════════════════════════════════════
+   CTA SECTION
+═══════════════════════════════════════════════ */
+.cta-section {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
+  padding: 4rem 2rem;
+  text-align: center;
+  margin-bottom: 0;
+}
+
+.cta-section h2 {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 800;
+  color: var(--white);
+  margin-bottom: .75rem;
+}
+
+.cta-section p {
+  color: rgba(255,255,255,.65);
+  max-width: 480px;
+  margin: 0 auto 2rem;
+  font-size: 1rem;
+}
+
+.cta-btns { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+.btn-primary {
+  background: var(--teal);
+  color: var(--navy);
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.95rem;
+  padding: .85rem 2rem;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: all .15s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-primary:hover { background: #0DB890; transform: translateY(-1px); text-decoration: none; }
+
+.btn-ghost {
+  background: rgba(255,255,255,.1);
+  color: var(--white);
+  font-family: 'Syne', sans-serif;
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: .85rem 2rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,.2);
+  cursor: pointer;
+  transition: all .15s;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.btn-ghost:hover { background: rgba(255,255,255,.15); text-decoration: none; }
+
+/* ═══════════════════════════════════════════════
+   FOOTER
+═══════════════════════════════════════════════ */
+footer {
+  background: var(--navy);
+  color: rgba(255,255,255,.5);
+  text-align: center;
+  padding: 2rem;
+  font-size: 0.85rem;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+
+footer a { color: var(--teal); }
+
+/* ═══════════════════════════════════════════════
+   RESPONSIVE
+═══════════════════════════════════════════════ */
+@media (max-width: 640px) {
+  .hero { padding: 3rem 1.25rem 3rem; }
+  .panel { padding: 1.5rem; }
+  .result-grid { grid-template-columns: repeat(2, 1fr); }
+  .nav-links { display: none; }
+  .result-grid .result-card:last-child { grid-column: 1 / -1; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── Nav ── -->
+<nav class="nav">
+  <a class="nav-logo" href="https://eduxellence.org">
+    Eduxellence<span>.</span>
+  </a>
+  <div class="nav-links">
+    <a href="https://eduxellence.org">Home</a>
+    <a href="https://eduxellence.org/services">Services</a>
+    <a href="https://eduxellence.org/free-tools">Free Tools</a>
+    <a href="https://eduxellence.org/#contact" class="nav-cta">Book an Audit</a>
+  </div>
+</nav>
+
+<!-- ── Hero ── -->
+<section class="hero">
+  <div class="hero-badge">✦ Free Online Tool</div>
+  <h1>Clean Messy Data in<br><span>4 Seconds Flat.</span></h1>
+  <p class="hero-sub">
+    Upload your CSV or Excel file. We fix duplicates, missing values, mixed date formats,
+    currency symbols, inconsistent categories, and outliers — automatically.
+  </p>
+  <div class="hero-stats">
+    <div class="stat-pill">✓ <strong>No login</strong> required</div>
+    <div class="stat-pill">✓ <strong>No installation</strong> needed</div>
+    <div class="stat-pill">✓ Files deleted <strong>immediately</strong></div>
+    <div class="stat-pill">✓ <strong>Free</strong> forever</div>
+  </div>
+</section>
+
+<!-- ── Main Tool ── -->
+<div class="main-container">
+  <div class="tool-card">
+    <div class="tool-tabs">
+      <button class="tool-tab active" onclick="switchTab('upload')">⬆ Upload & Clean</button>
+      <button class="tool-tab" onclick="switchTab('howto')">📖 How It Works</button>
+      <button class="tool-tab" onclick="switchTab('faq')">💬 FAQ</button>
+    </div>
+
+    <!-- Upload Panel -->
+    <div id="tab-upload" class="panel active">
+
+      <!-- Drop Zone -->
+      <div id="drop-zone" onclick="document.getElementById('file-input').click()">
+        <div class="drop-icon">📊</div>
+        <div class="drop-title">Drop your file here</div>
+        <div class="drop-sub">or click to browse your computer</div>
+        <div class="drop-types">
+          <span class="type-badge">CSV</span>
+          <span class="type-badge">XLSX</span>
+          <span class="type-badge">XLS</span>
+          <span class="type-badge">Max 10 MB</span>
+        </div>
+        <button class="browse-btn" onclick="event.stopPropagation(); document.getElementById('file-input').click()">
+          📂 Browse Files
+        </button>
+      </div>
+      <input type="file" id="file-input" accept=".csv,.xlsx,.xls">
+
+      <!-- File selected indicator -->
+      <div class="file-selected" id="file-selected">
+        <div class="file-icon">📄</div>
+        <div class="file-info">
+          <div class="file-name" id="file-name-display">—</div>
+          <div class="file-size" id="file-size-display">—</div>
+        </div>
+        <button class="file-remove" onclick="removeFile()" title="Remove file">✕</button>
+      </div>
+
+      <!-- Issues preview -->
+      <div id="preview-box">
+        <div class="preview-title">📋 We found these issues in your file:</div>
+        <div class="issues-grid" id="issues-grid"></div>
+        <div style="margin-top:1rem">
+          <div class="preview-title" style="font-size:.9rem">First 5 rows (raw):</div>
+          <div class="preview-scroll">
+            <table class="preview-table" id="preview-table"></table>
+          </div>
+        </div>
+      </div>
+
+      <!-- Error box -->
+      <div class="error-box" id="error-box">
+        <span style="font-size:1.25rem;flex-shrink:0">⚠</span>
+        <div id="error-text">An error occurred.</div>
+      </div>
+
+      <!-- Progress -->
+      <div id="progress-section">
+        <div class="progress-label">
+          <span id="stage-label">Analysing file…</span>
+          <span id="pct-label">0%</span>
+        </div>
+        <div class="progress-track">
+          <div class="progress-fill" id="progress-fill"></div>
+        </div>
+        <div class="stage-list" id="stage-list"></div>
+      </div>
+
+      <!-- Success -->
+      <div id="success-section">
+        <div class="success-card">
+          <div class="success-icon">🎉</div>
+          <div class="success-title">Your file is clean!</div>
+          <div class="success-sub">DataClean Pro processed your file in seconds. Here's what we fixed:</div>
+          <div class="result-grid" id="result-grid"></div>
+          <button class="download-btn" id="download-btn" onclick="triggerDownload()">
+            ⬇ Download Cleaned File (.xlsx)
+          </button>
+          <button class="clean-another" onclick="resetTool()">↩ Clean another file</button>
+          <p style="margin-top:1.25rem;font-size:0.8rem;color:var(--slate)">
+            Need advanced modelling, dashboards, or a custom pipeline?
+            <a href="https://eduxellence.org/#contact" target="_blank">Book a free 15-min audit →</a>
+          </p>
+        </div>
+      </div>
+
+      <!-- Clean button -->
+      <button class="clean-btn" id="clean-btn" onclick="startCleaning()" disabled>
+        <span class="btn-icon">⚡</span>
+        Clean My Data Automatically
+      </button>
+
+      <p style="text-align:center;font-size:0.78rem;color:var(--slate);margin-top:.75rem">
+        🔒 Your file is processed privately and deleted from our servers immediately after download.
+        We never store or share your data.
+        Powered by <a href="https://eduxellence.org" target="_blank">Eduxellence Analytics</a>.
+      </p>
+    </div>
+
+    <!-- How It Works Panel -->
+    <div id="tab-howto" class="panel">
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;margin-bottom:.5rem">How DataClean Pro Works</h2>
+      <p style="color:var(--slate);margin-bottom:2rem;font-size:.95rem">
+        11 automated cleaning stages run on your file the moment you click "Clean."
+      </p>
+      <div style="display:flex;flex-direction:column;gap:.75rem">
+        <div class="feature-item"><div class="feature-icon">🧹</div><div class="feature-text"><div class="ft">Whitespace stripping</div><div class="fd">Column names and all string cells are trimmed of invisible spaces.</div></div></div>
+        <div class="feature-item"><div class="feature-icon">🎯</div><div class="feature-text"><div class="ft">Null marker standardisation</div><div class="fd">Converts N/A, None, #N/A, -, ., blank → proper null values.</div></div></div>
+        <div class="feature-item"><div class="feature-icon">🗑</div><div class="feature-text"><div class="ft">Blank row / column removal</div><div class="fd">Drops rows and columns that are completely empty.</div></div></div>
+        <div class="feature-item"><div class="feature-icon">🔍</div><div class="feature-text"><div class="ft">Smart type detection</div><div class="fd">Auto-identifies numeric, date, categorical, text, boolean, and identifier columns.</div></div></div>
+        <div class="feature-item"><div class="feature-icon">📝</div><div class="feature-text"><div class="ft">Category standardisation</div><div class="fd">MALE / male / Male (with trailing space) → Male. Consistently.</div></div></div>
+        <div class="feature-item"><div class="feature-icon">📅</div><div class="feature-text"><div class="ft">Date standardisation</div><div class="fd">8 different date formats (Jan 15 2024, 15/01/2024, 2024-01-15…) → single YYYY-MM-DD standard.</div></div></div>
+        <div class="feature-item"><div class="feature-icon">💰</div><div class="feature-text"><div class="ft">Currency / numeric parsing</div><div class="fd">$1,200.00 / ₦45,000 / £850 → clean float values for analysis.</div></div></div>
+        <div class="feature-item"><div class="feature-icon">👥</div><div class="feature-text"><div class="ft">Duplicate removal</div><div class="fd">Exact duplicate rows detected and removed, keeping the first occurrence.</div></div></div>
+        <div class="feature-item"><div class="feature-icon">⚠</div><div class="feature-text"><div class="ft">Outlier flagging</div><div class="fd">IQR-based detection flags suspicious values in new _outlier_* columns. We flag — you decide.</div></div></div>
+        <div class="feature-item"><div class="feature-icon">🩹</div><div class="feature-text"><div class="ft">Missing value imputation</div><div class="fd">Numeric columns filled with column median. Categorical columns filled with mode.</div></div></div>
+        <div class="feature-item"><div class="feature-icon">📊</div><div class="feature-text"><div class="ft">Column intelligence report</div><div class="fd">Every column audited: type, missing %, unique count, min/max/mean. Included in your Excel file.</div></div></div>
+      </div>
+    </div>
+
+    <!-- FAQ Panel -->
+    <div id="tab-faq" class="panel">
+      <h2 style="font-family:'Syne',sans-serif;font-weight:800;font-size:1.5rem;margin-bottom:1.5rem">Frequently Asked Questions</h2>
+      <div style="display:flex;flex-direction:column;gap:1.25rem">
+        <div>
+          <div style="font-weight:600;margin-bottom:.35rem">Is this really free?</div>
+          <div style="color:var(--slate);font-size:.9rem">Yes, completely free. No account, no credit card, no watermark on your output. It is a free tool built by Eduxellence Analytics to help data professionals.</div>
+        </div>
+        <div>
+          <div style="font-weight:600;margin-bottom:.35rem">Is my data private?</div>
+          <div style="color:var(--slate);font-size:.9rem">Your file is processed entirely on the server, used once to generate the clean file, and then deleted immediately. We do not store, read, log, or share your data.</div>
+        </div>
+        <div>
+          <div style="font-weight:600;margin-bottom:.35rem">What file types are supported?</div>
+          <div style="color:var(--slate);font-size:.9rem">CSV (.csv), Excel 2007+ (.xlsx), and older Excel (.xls). Maximum file size is 10 MB. For larger files, use the downloadable Python version.</div>
+        </div>
+        <div>
+          <div style="font-weight:600;margin-bottom:.35rem">What does the cleaned Excel file contain?</div>
+          <div style="color:var(--slate);font-size:.9rem">Four worksheets: (1) your cleaned data, (2) a full cleaning log of every action taken, (3) a column-by-column intelligence report, and (4) run statistics.</div>
+        </div>
+        <div>
+          <div style="font-weight:600;margin-bottom:.35rem">What if the tool gets something wrong?</div>
+          <div style="color:var(--slate);font-size:.9rem">The script uses smart heuristics but is not perfect. Always review the cleaning log sheet and the _outlier_* columns before using the data in a model.</div>
+        </div>
+        <div>
+          <div style="font-weight:600;margin-bottom:.35rem">My project needs more than data cleaning. Can you help?</div>
+          <div style="color:var(--slate);font-size:.9rem">Yes — this is what Eduxellence does professionally. We build full data pipelines, run advanced statistical models in R, Python, SPSS, and EViews, and deliver analysis-ready insights for research teams and enterprises. <a href="https://eduxellence.org/#contact">Book a free audit call →</a></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── How To Use ── -->
+<section class="section">
+  <div class="section-label">Three Steps</div>
+  <h2 class="section-title">Easier than making coffee</h2>
+  <p class="section-sub">No installation. No command line. No Python knowledge required.</p>
+  <div class="steps">
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <div class="step-icon">📂</div>
+      <div class="step-title">Upload your file</div>
+      <div class="step-desc">Drag and drop or click to browse. CSV, XLSX, or XLS. Up to 10 MB.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <div class="step-icon">⚡</div>
+      <div class="step-title">Click "Clean"</div>
+      <div class="step-desc">Our engine runs 11 cleaning stages automatically. Usually takes under 5 seconds.</div>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <div class="step-icon">⬇</div>
+      <div class="step-title">Download clean data</div>
+      <div class="step-desc">Get a polished Excel file with your clean data, a full audit log, and column stats.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section class="cta-section">
+  <h2>Need more than a script?</h2>
+  <p>Eduxellence helps research teams and enterprises with the full analytical layer — modelling, pipelines, dashboards, and insight delivery.</p>
+  <div class="cta-btns">
+    <a href="https://eduxellence.org/#contact" class="btn-primary">Book Free 15-Min Audit →</a>
+    <a href="https://github.com/eduxellence/dataclean-pro" target="_blank" class="btn-ghost">⭐ Star on GitHub</a>
+  </div>
+</section>
+
+<!-- ── Footer ── -->
+<footer>
+  <p>
+    <strong style="color:rgba(255,255,255,.7)">DataClean Pro</strong> is a free tool by
+    <a href="https://eduxellence.org">Eduxellence Analytics</a> —
+    Elite data solutions for research and enterprise.
+  </p>
+  <p style="margin-top:.5rem">
+    <a href="https://eduxellence.org">Home</a> ·
+    <a href="https://eduxellence.org/services">Services</a> ·
+    <a href="https://github.com/eduxellence/dataclean-pro">GitHub</a> ·
+    <a href="https://eduxellence.org/free-tools">All Free Tools</a>
+  </p>
+</footer>
+
+<script>
+/* ═══════════════════════════════════════════════
+   STATE
+═══════════════════════════════════════════════ */
+let selectedFile = null;
+let cleanedBlob = null;
+let downloadFilename = "cleaned_data.xlsx";
+
+const STAGES = [
+  "Stripping whitespace",
+  "Standardising null markers",
+  "Removing blank rows & columns",
+  "Detecting column types",
+  "Standardising categories",
+  "Parsing & standardising dates",
+  "Parsing currency & numerics",
+  "Removing duplicate rows",
+  "Flagging statistical outliers",
+  "Imputing missing values",
+  "Generating column report",
+];
+
+/* ═══════════════════════════════════════════════
+   TAB SWITCHER
+═══════════════════════════════════════════════ */
+function switchTab(id) {
+  document.querySelectorAll(".tool-tab").forEach((t, i) => {
+    const ids = ["upload","howto","faq"];
+    t.classList.toggle("active", ids[i] === id);
+  });
+  document.querySelectorAll(".panel").forEach(p => p.classList.remove("active"));
+  document.getElementById("tab-" + id).classList.add("active");
+}
+
+/* ═══════════════════════════════════════════════
+   FILE HANDLING
+═══════════════════════════════════════════════ */
+const dropZone  = document.getElementById("drop-zone");
+const fileInput = document.getElementById("file-input");
+
+dropZone.addEventListener("dragover", e => { e.preventDefault(); dropZone.classList.add("dragover"); });
+dropZone.addEventListener("dragleave", () => dropZone.classList.remove("dragover"));
+dropZone.addEventListener("drop", e => {
+  e.preventDefault();
+  dropZone.classList.remove("dragover");
+  if (e.dataTransfer.files.length) handleFile(e.dataTransfer.files[0]);
+});
+
+fileInput.addEventListener("change", e => {
+  if (e.target.files.length) handleFile(e.target.files[0]);
+});
+
+function handleFile(file) {
+  const ext = file.name.split(".").pop().toLowerCase();
+  if (!["csv","xlsx","xls"].includes(ext)) {
+    showError("Unsupported file type. Please upload a .csv, .xlsx, or .xls file.");
+    return;
+  }
+  if (file.size > 10 * 1024 * 1024) {
+    showError("File too large. Maximum size is 10 MB.");
+    return;
+  }
+
+  selectedFile = file;
+  hideError();
+  hideSuccess();
+
+  // Show file indicator
+  document.getElementById("file-name-display").textContent = file.name;
+  document.getElementById("file-size-display").textContent = formatBytes(file.size);
+  document.getElementById("file-selected").classList.add("show");
+
+  // Enable clean button
+  document.getElementById("clean-btn").disabled = false;
+
+  // Request preview
+  fetchPreview(file);
+}
+
+function removeFile() {
+  selectedFile = null;
+  cleanedBlob = null;
+  fileInput.value = "";
+  document.getElementById("file-selected").classList.remove("show");
+  document.getElementById("preview-box").classList.remove("show");
+  document.getElementById("clean-btn").disabled = true;
+  hideError();
+  hideSuccess();
+}
+
+/* ═══════════════════════════════════════════════
+   PREVIEW
+═══════════════════════════════════════════════ */
+async function fetchPreview(file) {
+  const formData = new FormData();
+  formData.append("file", file);
+
+  try {
+    const resp = await fetch("/api/preview", { method: "POST", body: formData });
+    if (!resp.ok) return;
+    const data = await resp.json();
+    renderPreview(data);
+  } catch (_) {
+    // Preview is optional — fail silently
+  }
+}
+
+function renderPreview(data) {
+  const box = document.getElementById("preview-box");
+  box.classList.add("show");
+
+  // Issues grid
+  const missingFixed = data.missing_total;
+  const dupeEst = 0; // we don't know dupes until we clean
+  document.getElementById("issues-grid").innerHTML = `
+    <div class="issue-card">
+      <div class="issue-num">${data.rows}</div>
+      <div class="issue-label">Total rows</div>
+    </div>
+    <div class="issue-card">
+      <div class="issue-num">${data.cols}</div>
+      <div class="issue-label">Columns</div>
+    </div>
+    <div class="issue-card">
+      <div class="issue-num ${missingFixed > 0 ? 'red' : 'green'}">${missingFixed}</div>
+      <div class="issue-label">Missing values</div>
+    </div>
+    <div class="issue-card">
+      <div class="issue-num amber">${data.columns.filter(c => c.missing_pct > 10).length}</div>
+      <div class="issue-label">High-missing cols</div>
+    </div>
+  `;
+
+  // Preview table
+  const table = document.getElementById("preview-table");
+  if (!data.preview || data.preview.length === 0) return;
+
+  const cols = Object.keys(data.preview[0]);
+  const maxCols = Math.min(cols.length, 8);
+  const visibleCols = cols.slice(0, maxCols);
+
+  const thead = `<thead><tr>${visibleCols.map(c => `<th>${c}</th>`).join("")}${cols.length > maxCols ? '<th style="color:#94a3b8">+more</th>' : ""}</tr></thead>`;
+  const tbody = data.preview.map(row => {
+    const cells = visibleCols.map(c => {
+      const v = row[c];
+      if (v === null || v === undefined || v === "") return `<td class="null-cell">null</td>`;
+      return `<td>${String(v).substring(0, 40)}</td>`;
+    }).join("");
+    return `<tr>${cells}${cols.length > maxCols ? "<td>…</td>" : ""}</tr>`;
+  }).join("");
+
+  table.innerHTML = thead + `<tbody>${tbody}</tbody>`;
+}
+
+/* ═══════════════════════════════════════════════
+   CLEANING
+═══════════════════════════════════════════════ */
+async function startCleaning() {
+  if (!selectedFile) return;
+
+  // Reset UI
+  hideError();
+  hideSuccess();
+  document.getElementById("preview-box").classList.remove("show");
+  document.getElementById("clean-btn").disabled = true;
+  document.getElementById("clean-btn").innerHTML = '<span class="btn-icon">⏳</span> Cleaning…';
+
+  // Show progress
+  const progressSection = document.getElementById("progress-section");
+  progressSection.classList.add("show");
+  renderStages();
+  animateProgress();
+
+  // Upload and clean
+  const formData = new FormData();
+  formData.append("file", selectedFile);
+
+  try {
+    const resp = await fetch("/api/clean", { method: "POST", body: formData });
+
+    if (!resp.ok) {
+      const errData = await resp.json().catch(() => ({ error: "Unknown error." }));
+      throw new Error(errData.error || "Server error.");
+    }
+
+    // Read stats from headers
+    const rowsIn      = resp.headers.get("X-Rows-In")        || "?";
+    const rowsOut     = resp.headers.get("X-Rows-Out")       || "?";
+    const rowsRemoved = resp.headers.get("X-Rows-Removed")   || "?";
+    const missBefore  = resp.headers.get("X-Missing-Before") || "?";
+    const missAfter   = resp.headers.get("X-Missing-After")  || "?";
+    const missFixed   = (missBefore !== "?" && missAfter !== "?")
+      ? String(parseInt(missBefore) - parseInt(missAfter)) : "?";
+
+    // Get the file blob
+    cleanedBlob = await resp.blob();
+    downloadFilename = (selectedFile.name.replace(/\.[^.]+$/, "")) + "_cleaned_by_eduxellence.xlsx";
+
+    // Finish progress to 100%
+    setProgress(100, "Complete!");
+    markAllStagesDone();
+
+    setTimeout(() => {
+      progressSection.classList.remove("show");
+      showSuccess({ rowsIn, rowsOut, rowsRemoved, missBefore, missAfter, missFixed });
+    }, 600);
+
+  } catch (err) {
+    progressSection.classList.remove("show");
+    showError(err.message || "Something went wrong. Please try again.");
+    document.getElementById("clean-btn").disabled = false;
+    document.getElementById("clean-btn").innerHTML = '<span class="btn-icon">⚡</span> Clean My Data Automatically';
+  }
+}
+
+function triggerDownload() {
+  if (!cleanedBlob) return;
+  const url = URL.createObjectURL(cleanedBlob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = downloadFilename;
+  a.click();
+  setTimeout(() => URL.revokeObjectURL(url), 5000);
+}
+
+function resetTool() {
+  removeFile();
+  document.getElementById("progress-section").classList.remove("show");
+  hideSuccess();
+  document.getElementById("clean-btn").innerHTML = '<span class="btn-icon">⚡</span> Clean My Data Automatically';
+  cleanedBlob = null;
+}
+
+/* ═══════════════════════════════════════════════
+   PROGRESS ANIMATION
+═══════════════════════════════════════════════ */
+let progressTimer = null;
+let currentProgress = 0;
+
+function animateProgress() {
+  currentProgress = 0;
+  const totalDuration = 4000; // 4 sec fake progress to 90%
+  const interval = 80;
+  const steps = totalDuration / interval;
+  let step = 0;
+
+  clearInterval(progressTimer);
+  progressTimer = setInterval(() => {
+    step++;
+    // Ease-out curve: fast at start, slow near end
+    const pct = Math.min(90, Math.round(90 * (1 - Math.pow(1 - step / steps, 2.5))));
+    setProgress(pct, STAGES[Math.floor(pct / (90 / STAGES.length))] || "Finalising…");
+    updateStageHighlight(pct);
+
+    if (step >= steps) clearInterval(progressTimer);
+  }, interval);
+}
+
+function setProgress(pct, label) {
+  document.getElementById("progress-fill").style.width = pct + "%";
+  document.getElementById("pct-label").textContent = pct + "%";
+  if (label) document.getElementById("stage-label").textContent = label;
+}
+
+function renderStages() {
+  const list = document.getElementById("stage-list");
+  list.innerHTML = STAGES.map((s, i) =>
+    `<div class="stage-item" id="stage-${i}"><div class="stage-dot"></div>${s}</div>`
+  ).join("");
+}
+
+function updateStageHighlight(pct) {
+  const activeIdx = Math.min(STAGES.length - 1, Math.floor(pct / (90 / STAGES.length)));
+  STAGES.forEach((_, i) => {
+    const el = document.getElementById("stage-" + i);
+    if (!el) return;
+    el.classList.remove("active","done");
+    if (i < activeIdx) el.classList.add("done");
+    else if (i === activeIdx) el.classList.add("active");
+  });
+}
+
+function markAllStagesDone() {
+  clearInterval(progressTimer);
+  STAGES.forEach((_, i) => {
+    const el = document.getElementById("stage-" + i);
+    if (el) { el.classList.remove("active"); el.classList.add("done"); }
+  });
+}
+
+/* ═══════════════════════════════════════════════
+   SUCCESS / ERROR UI
+═══════════════════════════════════════════════ */
+function showSuccess({ rowsIn, rowsOut, rowsRemoved, missBefore, missAfter, missFixed }) {
+  const section = document.getElementById("success-section");
+  document.getElementById("result-grid").innerHTML = `
+    <div class="result-card"><div class="result-num">${rowsRemoved}</div><div class="result-lbl">Rows removed</div></div>
+    <div class="result-card"><div class="result-num">${missFixed}</div><div class="result-lbl">Values fixed</div></div>
+    <div class="result-card"><div class="result-num">${rowsOut}</div><div class="result-lbl">Clean rows</div></div>
+  `;
+  section.classList.add("show");
+  document.getElementById("clean-btn").style.display = "none";
+}
+
+function hideSuccess() {
+  document.getElementById("success-section").classList.remove("show");
+  document.getElementById("clean-btn").style.display = "";
+  document.getElementById("clean-btn").disabled = !selectedFile;
+  document.getElementById("clean-btn").innerHTML = '<span class="btn-icon">⚡</span> Clean My Data Automatically';
+}
+
+function showError(msg) {
+  const box = document.getElementById("error-box");
+  document.getElementById("error-text").textContent = msg;
+  box.classList.add("show");
+}
+
+function hideError() {
+  document.getElementById("error-box").classList.remove("show");
+}
+
+/* ═══════════════════════════════════════════════
+   UTILS
+═══════════════════════════════════════════════ */
+function formatBytes(bytes) {
+  if (bytes < 1024) return bytes + " B";
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+  return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+}
+</script>
+</body>
+</html>
