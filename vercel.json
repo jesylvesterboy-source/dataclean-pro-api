@@ -23,12 +23,6 @@
       "dest": "public/index.html"
     }
   ],
-  "functions": {
-    "api/app.py": {
-      "maxDuration": 30,
-      "memory": 1024
-    }
-  },
   "headers": [
     {
       "source": "/api/(.*)",
