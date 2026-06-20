@@ -36,6 +36,69 @@ def index():
     return html_path.read_text(encoding="utf-8"), 200, {"Content-Type": "text/html"}
 
 
+# ─── ADDED: /api/upload endpoint ──────────────────────────────────────────
+@app.route("/api/upload", methods=["POST"])
+def upload_file():
+    """
+    POST /api/upload
+    Accepts: multipart/form-data with field 'file' (CSV or Excel)
+    Returns: JSON with file preview, column stats, and metadata
+    This is used by the frontend for the initial upload/preview.
+    """
+    if "file" not in request.files:
+        return jsonify({"error": "No file uploaded. Please select a CSV or Excel file."}), 400
+
+    file = request.files["file"]
+
+    if file.filename == "":
+        return jsonify({"error": "No file selected."}), 400
+
+    if not allowed_file(file.filename):
+        return jsonify({"error": "Unsupported file type. Please upload a .csv, .xlsx, or .xls file."}), 400
+
+    tmp_dir = tempfile.mkdtemp(prefix="dcp_upload_")
+    safe_name = secure_filename(file.filename)
+    input_path = os.path.join(tmp_dir, safe_name)
+    file.save(input_path)
+
+    try:
+        import pandas as pd
+        ext = safe_name.rsplit(".", 1)[1].lower()
+        if ext in ("xlsx", "xls"):
+            df = pd.read_excel(input_path)
+        else:
+            df = pd.read_csv(input_path, low_memory=False)
+
+        # Replace NaN with None for JSON serialisation
+        df_preview = df.head(5).where(df.head(5).notna(), other=None)
+
+        col_stats = []
+        for col in df.columns:
+            missing = int(df[col].isna().sum())
+            pct = round(100 * missing / max(len(df), 1), 1)
+            col_stats.append({
+                "name": col,
+                "missing": missing,
+                "missing_pct": pct,
+                "unique": int(df[col].nunique()),
+                "dtype": str(df[col].dtype),
+            })
+
+        return jsonify({
+            "rows": len(df),
+            "cols": len(df.columns),
+            "missing_total": int(df.isna().sum().sum()),
+            "columns": col_stats,
+            "preview": df_preview.to_dict(orient="records"),
+        })
+
+    except Exception as exc:
+        return jsonify({"error": str(exc)}), 500
+    finally:
+        import shutil
+        shutil.rmtree(tmp_dir, ignore_errors=True)
+
+
 @app.route("/api/clean", methods=["POST"])
 def clean_file():
     """
