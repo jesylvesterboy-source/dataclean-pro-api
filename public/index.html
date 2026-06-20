@@ -1174,7 +1174,7 @@ async function fetchPreview(file) {
   formData.append("file", file);
 
   try {
-    const resp = await fetch("/api/preview", { method: "POST", body: formData });
+    const resp = await fetch("https://clean.eduxellence.org/api/upload", { method: "POST", body: formData });
     if (!resp.ok) return;
     const data = await resp.json();
     renderPreview(data);
