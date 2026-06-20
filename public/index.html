@@ -1254,7 +1254,8 @@ async function startCleaning() {
   formData.append("file", selectedFile);
 
   try {
-    const resp = await fetch("/api/clean", { method: "POST", body: formData });
+    // ─── FIXED: Use full URL instead of relative path ───
+    const resp = await fetch("https://clean.eduxellence.org/api/clean", { method: "POST", body: formData });
 
     if (!resp.ok) {
       const errData = await resp.json().catch(() => ({ error: "Unknown error." }));
