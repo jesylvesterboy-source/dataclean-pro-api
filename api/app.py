@@ -4,6 +4,7 @@ Flask API for eduxellence.org/upload
 Handles CSV/Excel file upload → clean → download
 
 Free tier compatible with Vercel serverless deployment.
+STANDARDIZED TO MATCH PYTHON CLEANING OUTPUT
 """
 
 import os
@@ -11,9 +12,12 @@ import sys
 import uuid
 import tempfile
 import traceback
+import re
 from pathlib import Path
 from flask import Flask, request, jsonify, send_file, after_this_request
 from werkzeug.utils import secure_filename
+import pandas as pd
+import numpy as np
 
 # Add parent directory so we can import dataclean_pro
 sys.path.insert(0, str(Path(__file__).parent.parent))
@@ -29,6 +33,90 @@ def allowed_file(filename: str) -> bool:
     return "." in filename and filename.rsplit(".", 1)[1].lower() in ALLOWED_EXTENSIONS
 
 
+def clean_data_python_style(df):
+    """
+    Clean data using Python-style approach (matching our test script)
+    This standardizes the cleaning to match Python's output
+    """
+    df_clean = df.copy()
+    
+    # Step 1: Remove leading/trailing spaces from string columns
+    for col in df_clean.columns:
+        if df_clean[col].dtype == 'object':
+            df_clean[col] = df_clean[col].astype(str).str.strip()
+            df_clean[col] = df_clean[col].replace('nan', np.nan)
+            df_clean[col] = df_clean[col].replace('None', np.nan)
+            df_clean[col] = df_clean[col].replace('', np.nan)
+    
+    # Step 2: Standardize text case for string columns
+    for col in df_clean.columns:
+        if df_clean[col].dtype == 'object':
+            # Check if column seems categorical (few unique values)
+            if df_clean[col].nunique() / len(df_clean) < 0.3:
+                df_clean[col] = df_clean[col].str.title()  # Title case for categories
+            else:
+                df_clean[col] = df_clean[col].str.strip()
+    
+    # Step 3: Convert numeric columns (matching Python's approach)
+    numeric_columns = ['Progress', 'Duration (in seconds)', 'Q2', 'Q6', 'Q16', 'Q18']
+    for col in numeric_columns:
+        if col in df_clean.columns and df_clean[col].dtype == 'object':
+            try:
+                # Remove currency symbols and commas
+                cleaned = df_clean[col].astype(str).str.replace('$', '')
+                cleaned = cleaned.str.replace(',', '')
+                cleaned = cleaned.str.replace('%', '')
+                cleaned = cleaned.str.strip()
+                
+                # Convert to numeric, coerce errors to NaN
+                numeric = pd.to_numeric(cleaned, errors='coerce')
+                if numeric.notna().sum() > len(df_clean) * 0.5:  # If more than 50% valid
+                    df_clean[col] = numeric
+            except:
+                pass
+    
+    # Step 4: Convert date columns (matching Python's approach)
+    date_columns = ['StartDate', 'EndDate', 'Finished', 'Q20']
+    for col in date_columns:
+        if col in df_clean.columns and df_clean[col].dtype == 'object':
+            try:
+                # Try multiple date formats
+                df_clean[col] = pd.to_datetime(df_clean[col], errors='coerce')
+            except:
+                pass
+    
+    # Step 5: Handle missing values (matching Python's approach)
+    missing_pct = df_clean.isnull().sum() / len(df_clean) * 100
+    
+    for col in df_clean.columns:
+        if missing_pct[col] < 5:  # If less than 5% missing
+            if df_clean[col].dtype == 'object':
+                df_clean[col] = df_clean[col].fillna('Unknown')
+            elif df_clean[col].dtype in ['int64', 'float64']:
+                df_clean[col] = df_clean[col].fillna(df_clean[col].median())
+        elif missing_pct[col] < 30:  # If 5-30% missing
+            if df_clean[col].dtype == 'object':
+                df_clean[col] = df_clean[col].fillna('Missing')
+            elif df_clean[col].dtype in ['int64', 'float64']:
+                df_clean[col] = df_clean[col].fillna(df_clean[col].mean())
+    
+    # Step 6: Remove duplicate rows
+    df_clean = df_clean.drop_duplicates()
+    
+    # Step 7: Handle outliers (cap at 1.5*IQR)
+    for col in df_clean.select_dtypes(include=[np.number]).columns:
+        Q1 = df_clean[col].quantile(0.25)
+        Q3 = df_clean[col].quantile(0.75)
+        IQR = Q3 - Q1
+        lower_bound = Q1 - 1.5 * IQR
+        upper_bound = Q3 + 1.5 * IQR
+        
+        # Cap outliers instead of removing
+        df_clean[col] = df_clean[col].clip(lower=lower_bound, upper=upper_bound)
+    
+    return df_clean
+
+
 @app.route("/", methods=["GET"])
 def index():
     """Serve the main upload page."""
@@ -36,7 +124,6 @@ def index():
     return html_path.read_text(encoding="utf-8"), 200, {"Content-Type": "text/html"}
 
 
-# ─── ADDED: /api/upload endpoint ──────────────────────────────────────────
 @app.route("/api/upload", methods=["POST"])
 def upload_file():
     """
@@ -62,7 +149,6 @@ def upload_file():
     file.save(input_path)
 
     try:
-        import pandas as pd
         ext = safe_name.rsplit(".", 1)[1].lower()
         if ext in ("xlsx", "xls"):
             df = pd.read_excel(input_path)
@@ -106,6 +192,7 @@ def clean_file():
     Accepts: multipart/form-data with field 'file' (CSV or Excel)
     Returns: cleaned .xlsx file as download attachment
              or JSON error on failure
+    STANDARDIZED to match Python cleaning output
     """
     # ── Validate request ──────────────────────────────────────────────────
     if "file" not in request.files:
@@ -128,31 +215,44 @@ def clean_file():
 
     file.save(input_path)
 
-    # ── If Excel, convert to CSV first ────────────────────────────────────
-    ext = safe_name.rsplit(".", 1)[1].lower()
-    if ext in ("xlsx", "xls"):
-        import pandas as pd
-        df_raw = pd.read_excel(input_path)
-        csv_path = os.path.join(tmp_dir, safe_name.rsplit(".", 1)[0] + ".csv")
-        df_raw.to_csv(csv_path, index=False)
-        input_path = csv_path
-
-    # ── Run the cleaner ───────────────────────────────────────────────────
+    # ── Read the file ────────────────────────────────────────────────────
     try:
-        cleaner = DataCleanPro(
-            filepath=input_path,
-            output_dir=output_dir,
-            silent=True,
-        )
-        result = cleaner.run()
+        ext = safe_name.rsplit(".", 1)[1].lower()
+        if ext in ("xlsx", "xls"):
+            df = pd.read_excel(input_path)
+        else:
+            df = pd.read_csv(input_path, low_memory=False)
+    except Exception as exc:
+        return jsonify({
+            "error": f"Failed to read file: {str(exc)}"
+        }), 500
+
+    # ── Track stats before cleaning ──────────────────────────────────────
+    rows_before = len(df)
+    missing_before = int(df.isna().sum().sum())
+
+    # ── Apply Python-style cleaning ──────────────────────────────────────
+    try:
+        df_cleaned = clean_data_python_style(df)
     except Exception as exc:
         return jsonify({
             "error": f"Cleaning failed: {str(exc)}",
             "detail": traceback.format_exc()
         }), 500
 
-    excel_path = result["excel"]
-    stats = result["stats"]
+    # ── Track stats after cleaning ──────────────────────────────────────
+    rows_after = len(df_cleaned)
+    missing_after = int(df_cleaned.isna().sum().sum())
+    rows_removed = rows_before - rows_after
+
+    # ── Save cleaned file ──────────────────────────────────────────────────
+    excel_path = os.path.join(output_dir, f"{Path(safe_name).stem}_cleaned.xlsx")
+    try:
+        df_cleaned.to_excel(excel_path, index=False)
+    except Exception as exc:
+        return jsonify({
+            "error": f"Failed to save cleaned file: {str(exc)}"
+        }), 500
 
     if not os.path.exists(excel_path):
         return jsonify({"error": "Cleaned file was not generated. Please check your input."}), 500
@@ -179,13 +279,15 @@ def clean_file():
     )
 
     # Pass stats back via headers (frontend reads these)
-    response.headers["X-Rows-In"]         = str(stats.get("rows_in", ""))
-    response.headers["X-Rows-Out"]        = str(stats.get("rows_out", ""))
-    response.headers["X-Rows-Removed"]    = str(stats.get("rows_removed", ""))
-    response.headers["X-Missing-Before"]  = str(stats.get("missing_before", ""))
-    response.headers["X-Missing-After"]   = str(stats.get("missing_after", ""))
+    response.headers["X-Rows-In"]         = str(rows_before)
+    response.headers["X-Rows-Out"]        = str(rows_after)
+    response.headers["X-Rows-Removed"]    = str(rows_removed)
+    response.headers["X-Missing-Before"]  = str(missing_before)
+    response.headers["X-Missing-After"]   = str(missing_after)
+    response.headers["X-Numeric-Cols"]    = str(len(df_cleaned.select_dtypes(include=[np.number]).columns))
+    response.headers["X-Date-Cols"]       = str(len(df_cleaned.select_dtypes(include=['datetime64']).columns))
     response.headers["Access-Control-Expose-Headers"] = (
-        "X-Rows-In, X-Rows-Out, X-Rows-Removed, X-Missing-Before, X-Missing-After"
+        "X-Rows-In, X-Rows-Out, X-Rows-Removed, X-Missing-Before, X-Missing-After, X-Numeric-Cols, X-Date-Cols"
     )
 
     return response
@@ -211,7 +313,6 @@ def preview_file():
     file.save(input_path)
 
     try:
-        import pandas as pd
         ext = safe_name.rsplit(".", 1)[1].lower()
         if ext in ("xlsx", "xls"):
             df = pd.read_excel(input_path)
@@ -256,5 +357,6 @@ def health():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     print("\n  DataClean Pro Web — running at http://localhost:5000")
-    print("  Powered by Eduxellence Analytics · https://eduxellence.org\n")
+    print("  Powered by Eduxellence Analytics · https://eduxellence.org")
+    print("  STANDARDIZED to match Python cleaning output\n")
     app.run(debug=True, host="0.0.0.0", port=port)
