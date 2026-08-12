@@ -17,9 +17,6 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
 <style>
-/* ═══════════════════════════════════════════════
-   RESET & BASE
-═══════════════════════════════════════════════ */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
@@ -61,9 +58,6 @@ body {
 a { color: var(--blue); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-/* ═══════════════════════════════════════════════
-   NAV
-═══════════════════════════════════════════════ */
 .nav {
   background: var(--navy);
   padding: 0 2rem;
@@ -113,9 +107,6 @@ a:hover { text-decoration: underline; }
   font-weight: 600 !important;
 }
 
-/* ═══════════════════════════════════════════════
-   HERO
-═══════════════════════════════════════════════ */
 .hero {
   background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
   padding: 5rem 2rem 4rem;
@@ -172,7 +163,6 @@ a:hover { text-decoration: underline; }
   line-height: 1.7;
 }
 
-/* Stat pills */
 .hero-stats {
   display: flex;
   gap: 1rem;
@@ -195,9 +185,6 @@ a:hover { text-decoration: underline; }
 
 .stat-pill strong { color: var(--teal); }
 
-/* ═══════════════════════════════════════════════
-   MAIN TOOL CARD
-═══════════════════════════════════════════════ */
 .main-container {
   max-width: 860px;
   margin: -2rem auto 4rem;
@@ -213,7 +200,6 @@ a:hover { text-decoration: underline; }
   overflow: hidden;
 }
 
-/* Tab bar */
 .tool-tabs {
   display: flex;
   border-bottom: 1px solid var(--border);
@@ -243,11 +229,9 @@ a:hover { text-decoration: underline; }
   background: var(--white);
 }
 
-/* Upload panel */
 .panel { display: none; padding: 2rem; }
 .panel.active { display: block; }
 
-/* Drop zone */
 #drop-zone {
   border: 2px dashed var(--slate-light);
   border-radius: var(--radius-lg);
@@ -330,7 +314,6 @@ a:hover { text-decoration: underline; }
 
 .browse-btn:hover { background: var(--blue-light); transform: translateY(-1px); }
 
-/* File selected state */
 .file-selected {
   display: none;
   background: rgba(22,163,74,.06);
@@ -373,7 +356,6 @@ a:hover { text-decoration: underline; }
 
 .file-remove:hover { color: var(--error); }
 
-/* Preview table */
 #preview-box { display: none; margin-top: 1.5rem; }
 #preview-box.show { display: block; }
 
@@ -448,7 +430,6 @@ a:hover { text-decoration: underline; }
 
 .issue-label { font-size: 0.78rem; color: var(--slate); margin-top: 2px; }
 
-/* Clean button */
 .clean-btn {
   width: 100%;
   background: linear-gradient(135deg, var(--blue) 0%, #1452CC 100%);
@@ -483,7 +464,6 @@ a:hover { text-decoration: underline; }
 
 .clean-btn .btn-icon { font-size: 1.2rem; }
 
-/* Progress state */
 #progress-section { display: none; margin-top: 1.5rem; }
 #progress-section.show { display: block; }
 
@@ -538,7 +518,6 @@ a:hover { text-decoration: underline; }
   flex-shrink: 0;
 }
 
-/* Success state */
 #success-section { display: none; margin-top: 1.5rem; }
 #success-section.show { display: block; }
 
@@ -623,7 +602,6 @@ a:hover { text-decoration: underline; }
 
 .clean-another:hover { border-color: var(--blue); color: var(--blue); }
 
-/* Error */
 .error-box {
   display: none;
   background: rgba(220,38,38,.06);
@@ -639,9 +617,6 @@ a:hover { text-decoration: underline; }
 
 .error-box.show { display: flex; }
 
-/* ═══════════════════════════════════════════════
-   HOW IT WORKS
-═══════════════════════════════════════════════ */
 .section {
   max-width: 960px;
   margin: 0 auto 5rem;
@@ -677,7 +652,6 @@ a:hover { text-decoration: underline; }
   font-size: 1rem;
 }
 
-/* Steps */
 .steps {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
@@ -719,7 +693,6 @@ a:hover { text-decoration: underline; }
 
 .step-desc { font-size: 0.875rem; color: var(--slate); line-height: 1.6; }
 
-/* Features grid */
 .features {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
@@ -749,9 +722,6 @@ a:hover { text-decoration: underline; }
 .feature-text .ft { font-weight: 600; font-size: 0.9rem; color: var(--text); }
 .feature-text .fd { font-size: 0.82rem; color: var(--slate); margin-top: 2px; }
 
-/* ═══════════════════════════════════════════════
-   CTA SECTION
-═══════════════════════════════════════════════ */
 .cta-section {
   background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 100%);
   padding: 4rem 2rem;
@@ -814,9 +784,6 @@ a:hover { text-decoration: underline; }
 
 .btn-ghost:hover { background: rgba(255,255,255,.15); text-decoration: none; }
 
-/* ═══════════════════════════════════════════════
-   FOOTER
-═══════════════════════════════════════════════ */
 footer {
   background: var(--navy);
   color: rgba(255,255,255,.5);
@@ -828,9 +795,76 @@ footer {
 
 footer a { color: var(--teal); }
 
-/* ═══════════════════════════════════════════════
-   RESPONSIVE
-═══════════════════════════════════════════════ */
+/* ── Upsell CTA components (added) ── */
+.upsell-banner {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  background: linear-gradient(135deg, rgba(30,107,255,.06), rgba(15,201,160,.08));
+  border: 1px solid rgba(30,107,255,.18);
+  border-radius: var(--radius-md);
+  padding: .85rem 1.1rem;
+  margin-top: 1rem;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+}
+
+.upsell-banner .upsell-icon { font-size: 1.1rem; flex-shrink: 0; }
+
+.upsell-banner strong { color: var(--text); }
+
+.upsell-banner .upsell-links { display: flex; gap: .5rem; flex-wrap: wrap; margin-top: 4px; }
+
+.upsell-banner a {
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+.upsell-box {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: 1.1rem 1.25rem;
+  margin-top: 1.25rem;
+  text-align: left;
+}
+
+.upsell-box .upsell-title {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: var(--text);
+  margin-bottom: .4rem;
+}
+
+.upsell-box .upsell-desc { font-size: 0.82rem; color: var(--slate); margin-bottom: .75rem; }
+
+.upsell-box .upsell-btns { display: flex; gap: .6rem; flex-wrap: wrap; }
+
+.upsell-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: .5rem 1rem;
+  border-radius: 8px;
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  background: var(--off-white);
+  transition: all .15s;
+}
+
+.upsell-btn:hover { border-color: var(--blue); color: var(--blue); text-decoration: none; }
+
+.upsell-btn.primary {
+  background: var(--navy);
+  color: var(--white);
+  border-color: var(--navy);
+}
+
+.upsell-btn.primary:hover { background: var(--navy-mid); color: var(--white); }
+
 @media (max-width: 640px) {
   .hero { padding: 3rem 1.25rem 3rem; }
   .panel { padding: 1.5rem; }
@@ -914,6 +948,21 @@ footer a { color: var(--teal); }
       <div id="preview-box">
         <div class="preview-title">📋 We found these issues in your file:</div>
         <div class="issues-grid" id="issues-grid"></div>
+
+        <!-- Upsell: shown once we know the file has real issues -->
+        <div class="upsell-banner">
+          <span class="upsell-icon">💡</span>
+          <div>
+            <strong>This tool handles cleaning.</strong> For deeper statistical analysis of this data,
+            try
+            <div class="upsell-links">
+              <a href="https://stats.eduxellence.org?ref=clean-preview" target="_blank">stats.eduxellence.org →</a>
+              <span style="color:var(--slate-light)">·</span>
+              <a href="https://analytics.eduxellence.org?ref=clean-preview" target="_blank">Hire our team →</a>
+            </div>
+          </div>
+        </div>
+
         <div style="margin-top:1rem">
           <div class="preview-title" style="font-size:.9rem">First 5 rows (raw):</div>
           <div class="preview-scroll">
@@ -951,10 +1000,19 @@ footer a { color: var(--teal); }
             ⬇ Download Cleaned File (.xlsx)
           </button>
           <button class="clean-another" onclick="resetTool()">↩ Clean another file</button>
-          <p style="margin-top:1.25rem;font-size:0.8rem;color:var(--slate)">
-            Need advanced modelling, dashboards, or a custom pipeline?
-            <a href="https://eduxellence.org/#contact" target="_blank">Book a free 15-min audit →</a>
-          </p>
+
+          <!-- Upsell: peak-trust moment, right after a successful clean -->
+          <div class="upsell-box">
+            <div class="upsell-title">🚀 Now that it's clean, put it to work</div>
+            <div class="upsell-desc">
+              Need regressions, forecasting, or statistical modelling on this dataset?
+              Or a custom, automated pipeline so you never clean data by hand again?
+            </div>
+            <div class="upsell-btns">
+              <a class="upsell-btn primary" href="https://stats.eduxellence.org?ref=clean-success" target="_blank">📈 Advanced Statistical Modelling</a>
+              <a class="upsell-btn" href="https://analytics.eduxellence.org?ref=clean-success" target="_blank">🛠 Hire Us For Custom Pipelines</a>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1078,9 +1136,6 @@ footer a { color: var(--teal); }
 </footer>
 
 <script>
-/* ═══════════════════════════════════════════════
-   STATE
-═══════════════════════════════════════════════ */
 let selectedFile = null;
 let cleanedBlob = null;
 let downloadFilename = "cleaned_data.xlsx";
@@ -1099,9 +1154,6 @@ const STAGES = [
   "Generating column report",
 ];
 
-/* ═══════════════════════════════════════════════
-   TAB SWITCHER
-═══════════════════════════════════════════════ */
 function switchTab(id) {
   document.querySelectorAll(".tool-tab").forEach((t, i) => {
     const ids = ["upload","howto","faq"];
@@ -1111,9 +1163,6 @@ function switchTab(id) {
   document.getElementById("tab-" + id).classList.add("active");
 }
 
-/* ═══════════════════════════════════════════════
-   FILE HANDLING
-═══════════════════════════════════════════════ */
 const dropZone  = document.getElementById("drop-zone");
 const fileInput = document.getElementById("file-input");
 
@@ -1144,15 +1193,12 @@ function handleFile(file) {
   hideError();
   hideSuccess();
 
-  // Show file indicator
   document.getElementById("file-name-display").textContent = file.name;
   document.getElementById("file-size-display").textContent = formatBytes(file.size);
   document.getElementById("file-selected").classList.add("show");
 
-  // Enable clean button
   document.getElementById("clean-btn").disabled = false;
 
-  // Request preview
   fetchPreview(file);
 }
 
@@ -1167,9 +1213,6 @@ function removeFile() {
   hideSuccess();
 }
 
-/* ═══════════════════════════════════════════════
-   PREVIEW
-═══════════════════════════════════════════════ */
 async function fetchPreview(file) {
   const formData = new FormData();
   formData.append("file", file);
@@ -1188,9 +1231,7 @@ function renderPreview(data) {
   const box = document.getElementById("preview-box");
   box.classList.add("show");
 
-  // Issues grid
   const missingFixed = data.missing_total;
-  const dupeEst = 0; // we don't know dupes until we clean
   document.getElementById("issues-grid").innerHTML = `
     <div class="issue-card">
       <div class="issue-num">${data.rows}</div>
@@ -1210,7 +1251,6 @@ function renderPreview(data) {
     </div>
   `;
 
-  // Preview table
   const table = document.getElementById("preview-table");
   if (!data.preview || data.preview.length === 0) return;
 
@@ -1231,26 +1271,20 @@ function renderPreview(data) {
   table.innerHTML = thead + `<tbody>${tbody}</tbody>`;
 }
 
-/* ═══════════════════════════════════════════════
-   CLEANING
-═══════════════════════════════════════════════ */
 async function startCleaning() {
   if (!selectedFile) return;
 
-  // Reset UI
   hideError();
   hideSuccess();
   document.getElementById("preview-box").classList.remove("show");
   document.getElementById("clean-btn").disabled = true;
   document.getElementById("clean-btn").innerHTML = '<span class="btn-icon">⏳</span> Cleaning…';
 
-  // Show progress
   const progressSection = document.getElementById("progress-section");
   progressSection.classList.add("show");
   renderStages();
   animateProgress();
 
-  // Upload and clean
   const formData = new FormData();
   formData.append("file", selectedFile);
 
@@ -1262,7 +1296,6 @@ async function startCleaning() {
       throw new Error(errData.error || "Server error.");
     }
 
-    // Read stats from headers
     const rowsIn      = resp.headers.get("X-Rows-In")        || "?";
     const rowsOut     = resp.headers.get("X-Rows-Out")       || "?";
     const rowsRemoved = resp.headers.get("X-Rows-Removed")   || "?";
@@ -1271,11 +1304,9 @@ async function startCleaning() {
     const missFixed   = (missBefore !== "?" && missAfter !== "?")
       ? String(parseInt(missBefore) - parseInt(missAfter)) : "?";
 
-    // Get the file blob
     cleanedBlob = await resp.blob();
     downloadFilename = (selectedFile.name.replace(/\.[^.]+$/, "")) + "_cleaned_by_eduxellence.xlsx";
 
-    // Finish progress to 100%
     setProgress(100, "Complete!");
     markAllStagesDone();
 
@@ -1310,15 +1341,12 @@ function resetTool() {
   cleanedBlob = null;
 }
 
-/* ═══════════════════════════════════════════════
-   PROGRESS ANIMATION
-═══════════════════════════════════════════════ */
 let progressTimer = null;
 let currentProgress = 0;
 
 function animateProgress() {
   currentProgress = 0;
-  const totalDuration = 4000; // 4 sec fake progress to 90%
+  const totalDuration = 4000;
   const interval = 80;
   const steps = totalDuration / interval;
   let step = 0;
@@ -1326,7 +1354,6 @@ function animateProgress() {
   clearInterval(progressTimer);
   progressTimer = setInterval(() => {
     step++;
-    // Ease-out curve: fast at start, slow near end
     const pct = Math.min(90, Math.round(90 * (1 - Math.pow(1 - step / steps, 2.5))));
     setProgress(pct, STAGES[Math.floor(pct / (90 / STAGES.length))] || "Finalising…");
     updateStageHighlight(pct);
@@ -1367,9 +1394,6 @@ function markAllStagesDone() {
   });
 }
 
-/* ═══════════════════════════════════════════════
-   SUCCESS / ERROR UI
-═══════════════════════════════════════════════ */
 function showSuccess({ rowsIn, rowsOut, rowsRemoved, missBefore, missAfter, missFixed }) {
   const section = document.getElementById("success-section");
   document.getElementById("result-grid").innerHTML = `
@@ -1398,9 +1422,6 @@ function hideError() {
   document.getElementById("error-box").classList.remove("show");
 }
 
-/* ═══════════════════════════════════════════════
-   UTILS
-═══════════════════════════════════════════════ */
 function formatBytes(bytes) {
   if (bytes < 1024) return bytes + " B";
   if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
