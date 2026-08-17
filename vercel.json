@@ -19,6 +19,10 @@
       "dest": "api/app.py"
     },
     {
+      "src": "/sitemap.xml",
+      "dest": "public/sitemap.xml"
+    },
+    {
       "src": "/(.*)",
       "dest": "public/index.html"
     }
