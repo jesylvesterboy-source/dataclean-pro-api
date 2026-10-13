@@ -865,6 +865,70 @@ footer a { color: var(--teal); }
 
 .upsell-btn.primary:hover { background: var(--navy-mid); color: var(--white); }
 
+/* ── Contact & Support + footer credit ── */
+#contact { scroll-margin-top: 80px; }
+.support-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 1rem;
+  max-width: 640px;
+  margin: 0 auto;
+}
+.support-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .25rem;
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1.25rem;
+  text-align: center;
+  color: var(--text);
+  min-height: 44px;
+  transition: box-shadow .2s, border-color .2s;
+}
+.support-card:hover { border-color: var(--blue); box-shadow: var(--shadow-md); text-decoration: none; }
+.support-card:focus-visible { outline: 2px solid var(--blue); outline-offset: 2px; }
+.support-icon { font-size: 1.5rem; }
+.support-label {
+  font-family: 'Syne', sans-serif;
+  font-size: .72rem;
+  font-weight: 700;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  color: var(--slate);
+}
+.support-value {
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: .95rem;
+  color: var(--text);
+  overflow-wrap: anywhere;
+}
+
+.footer-credit {
+  margin-top: 1.25rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+.footer-credit p { margin: 0; color: rgba(255,255,255,.7); font-size: .8rem; }
+.footer-contact {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0 1.5rem;
+  margin-top: .25rem !important;
+}
+.footer-contact a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: 0 .25rem;
+  overflow-wrap: anywhere;
+}
+footer a:focus-visible { outline: 2px solid var(--teal); outline-offset: 2px; border-radius: 2px; }
+
 @media (max-width: 640px) {
   .hero { padding: 3rem 1.25rem 3rem; }
   .panel { padding: 1.5rem; }
@@ -1110,6 +1174,25 @@ footer a { color: var(--teal); }
   </div>
 </section>
 
+<!-- ── Contact & Support ── -->
+<section class="section" id="contact" aria-labelledby="support-title">
+  <div class="section-label">Contact &amp; Support</div>
+  <h2 class="section-title" id="support-title">Need help or have a question?</h2>
+  <p class="section-sub">Contact our support team for assistance, enquiries or feedback.</p>
+  <div class="support-grid">
+    <a class="support-card" href="tel:+2348135980311">
+      <span class="support-icon" aria-hidden="true">📞</span>
+      <span class="support-label">Phone</span>
+      <span class="support-value">+234 813 598 0311</span>
+    </a>
+    <a class="support-card" href="mailto:eduxellencesolutions@gmail.com">
+      <span class="support-icon" aria-hidden="true">✉️</span>
+      <span class="support-label">Email</span>
+      <span class="support-value">eduxellencesolutions@gmail.com</span>
+    </a>
+  </div>
+</section>
+
 <!-- ── CTA ── -->
 <section class="cta-section">
   <h2>Need more than a script?</h2>
@@ -1130,9 +1213,17 @@ footer a { color: var(--teal); }
   <p style="margin-top:.5rem">
     <a href="https://eduxellence.org">Home</a> ·
     <a href="https://eduxellence.org/services">Services</a> ·
+    <a href="#contact">Contact</a> ·
     <a href="https://github.com/eduxellence/dataclean-pro">GitHub</a> ·
     <a href="https://eduxellence.org/free-tools">All Free Tools</a>
   </p>
+  <div class="footer-credit">
+    <p>Designed and Developed by Eduxellence Solutions Bright Horizon Ltd.</p>
+    <p class="footer-contact">
+      <a href="tel:+2348135980311">Phone: +234 813 598 0311</a>
+      <a href="mailto:eduxellencesolutions@gmail.com">Email: eduxellencesolutions@gmail.com</a>
+    </p>
+  </div>
 </footer>
 
 <script>
